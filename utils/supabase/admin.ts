@@ -1,8 +1,8 @@
 import Stripe from "npm:stripe@^13.0.0";
-import { toDateTime } from '../helpers';
-import { stripe } from '../stripe/config';
-import { supabaseClient as supabaseAdmin } from '../supabase/client';
-import type { Database, Tables, TablesInsert } from '../../types/types_db';
+import { toDateTime } from '../helpers.ts';
+import { stripe } from '../stripe/config.ts';
+import { supabaseClient as supabaseAdmin } from '../supabase/client.ts';
+import type { Database, Tables, TablesInsert } from '../../types/types_db.ts';
 
 type Product = Tables<'products'>;
 type Price = Tables<'prices'>;

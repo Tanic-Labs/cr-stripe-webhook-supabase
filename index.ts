@@ -1,7 +1,7 @@
 // main.ts
 // Importing the Stripe library
 import Stripe from "npm:stripe@^13.0.0";
-import { stripe } from './utils/stripe/config';
+import { stripe } from './utils/stripe/config.ts';
 import {
   upsertProductRecord,
   upsertPriceRecord,
