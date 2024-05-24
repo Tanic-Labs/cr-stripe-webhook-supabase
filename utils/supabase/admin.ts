@@ -13,6 +13,28 @@ const TRIAL_PERIOD_DAYS = 0;
 // Note: supabaseAdmin uses the SERVICE_ROLE_KEY which you must only use in a secure server-side context
 // as it has admin privileges and overwrites RLS policies!
 
+const updatePremiumCredits = async (customerId: string) => {
+  const { data: customer, error: customerError } = await supabaseAdmin
+        .from('customers')
+        .select('id')
+        .eq('stripe_customer_id', customerId)
+        .single();
+
+    if (customerError || !customer) {
+        throw new Error('Customer not found or there was an error fetching the customer');
+    }
+
+    // Use the customer's ID to update the premium credits in the users table
+    const { data, error: updateError } = await supabaseAdmin
+        .from('users')
+        .update({ premium_credits: supabaseAdmin.raw('premium_credits + 100') })
+        .eq('id', customer.id);
+
+    if (updateError) throw updateError;
+
+    return data;
+}
+
 const upsertProductRecord = async (product: Stripe.Product) => {
   const productData: Product = {
     id: product.id,
@@ -284,5 +306,6 @@ export {
   deleteProductRecord,
   deletePriceRecord,
   createOrRetrieveCustomer,
-  manageSubscriptionStatusChange
+  manageSubscriptionStatusChange,
+  updatePremiumCredits
 };
